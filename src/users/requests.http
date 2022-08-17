@@ -14,11 +14,14 @@ content-type: application/json
   "password": "123456"
 }
 
+### Signout a user
+POST http://localhost:3000/auth/signout
+
 ### Get currently signed-in user
 GET http://localhost:3000/auth/whoami
 
 ### Find a particular user with a given ID
-GET http://localhost:3000/auth/5
+GET http://localhost:3000/auth/8
 
 ### Find all users with a given email
 GET http://localhost:3000/auth?email=mario@mario.nl
