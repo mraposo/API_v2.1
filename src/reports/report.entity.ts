@@ -7,8 +7,8 @@ export class Report {
   @PrimaryGeneratedColumn()
   id: number;
   
-  // @Column()
-  // make: string;
+  @Column({ default: false })
+  approved: boolean;
   
   @Column()
   model: string;
@@ -18,6 +18,9 @@ export class Report {
   
   @Column()
   price: number;
+  
+  // @Column()
+  // make: string;
 
   @Column()
   lng: number;
