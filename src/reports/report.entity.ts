@@ -7,8 +7,8 @@ export class Report {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column({ default: false })
-  approved: boolean;
+  @Column()
+  make: string;
   
   @Column()
   model: string;
@@ -19,9 +19,6 @@ export class Report {
   @Column()
   price: number;
   
-  // @Column()
-  // make: string;
-
   @Column()
   lng: number;
   
@@ -30,7 +27,10 @@ export class Report {
   
   @Column()
   mileage: number;
-
+  
+  @Column({ default: false })
+  approved: boolean;
+  
   @ManyToOne(() => User, (user) => user.reports)
   user: User;
 
