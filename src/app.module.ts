@@ -16,23 +16,7 @@ const cookieSession = require('cookie-session');
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`
     }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
-          synchronize: true,
-          entities: [User, Report],
-        };
-      }
-    }),
-    // TypeOrmModule.forRoot({
-    //   type: 'sqlite',
-    //   database: process.env.NODE_ENV === 'test' ? 'test.sqlite' : 'db.sqlite',
-    //   entities: [User, Report],
-    //   synchronize: true,
-    // }),
+    TypeOrmModule.forRoot(),
     UsersModule,
     ReportsModule,
   ],
@@ -48,13 +32,35 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(
+    private configService: ConfigService
+   ) {}
+
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['mario'],
+          keys: [this.configService.get('COOKIE_KEY')],
     }),
     ).forRoutes('*');
   }
-
 }
+
+    
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => {
+    //     return {
+    //       type: 'sqlite',
+    //       database: config.get<string>('DB_NAME'),
+    //       synchronize: true, // ONLY TRUE IN DEVELOPMENT!  FALSE IN PRODUCTION
+    //       entities: [User, Report],
+    //     };
+    //   }
+    // }),
+    // TypeOrmModule.forRoot({
+    //   type: 'sqlite',
+    //   database: process.env.NODE_ENV === 'test' ? 'test.sqlite' : 'db.sqlite',
+    //   entities: [User, Report],
+    //   synchronize: true,
+    // }),
